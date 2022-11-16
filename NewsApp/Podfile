@@ -1,0 +1,8 @@
+platform :ios, '14.0'
+
+target 'NewsApp' do
+  use_frameworks!
+
+  pod 'Moya', '~> 15.0'
+
+end

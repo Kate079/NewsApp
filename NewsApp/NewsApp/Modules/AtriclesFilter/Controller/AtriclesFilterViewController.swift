@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol FilterViewControllerProtocol: AnyObject {
+protocol AtriclesFilterViewControllerProtocol: AnyObject {
     func displayFilterData(viewModel: AtriclesFilterModel.AtriclesFilterViewModel)
 }
 
-class FilterViewController: UIViewController {
+class AtriclesFilterViewController: UIViewController {
     // MARK: - Public properties
 
-//    var router: ArticlesListRouterProtocol?
-    var interactor: FilterInteractorProtocol?
+    var router: AtriclesFilterRouterProtocol?
+    var interactor: AtriclesFilterInteractorProtocol?
 
     // MARK: - Private properties
 
@@ -32,59 +32,32 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        navigationItem.title = "Breaking News"
-//        navigationController?.isNavigationBarHidden = false
-//        setupRouter()
-//        fetchArticlesList(page: 1)
-//        configureSearchController()
-//        configureItemSelectionHandler()
-//        refreshTableViewCompletion()
-//        configureLoadMoreDataCompletion()
-//        sortByAscendingButtonHandler()
-//        configureFilterButtonCompletion()
+        interactor?.setupFilerData()
+        
+        setupRouter()
+        configureApplyFilterButtonCompletion()
     }
 
     // MARK: - Private methods
 
-//    private func setupRouter() {
-//        if let navigationController = navigationController {
-//            self.router = ArticlesListRouter(navigationController: navigationController, factory: factory)
-//        }
-//    }
-//
-//    private func fetchArticlesList(searchKeyword: String? = "Ukraine", sortBy: NewsSorting? = .publishedAt, isSortByAscending: Bool = true, page: Int?) {
-//        interactor?.loadArticlesList(searchKeyword: searchKeyword, sortBy: sortBy, isSortByAscending: isSortByAscending, page: page)
-//    }
-//
-//    private func configureAccessoryButtonHandler() {
-//        contentView?.configureAccessoryButtonHandler = { [weak self] itemIndex, isSaved in
-//            guard let self = self else { return }
-//            print(isSaved)
-//            print(itemIndex)
-//        }
-//    }
-//
-//    private func configureSearchController() {
-//        searchController = UISearchController(searchResultsController: nil)
-//        searchController.obscuresBackgroundDuringPresentation = false
-//        searchController.searchBar.delegate = self
-//        searchController.searchBar.isHidden = false
-//        definesPresentationContext = true
-//        navigationItem.searchController = searchController
-//        navigationItem.hidesSearchBarWhenScrolling = false
-//    }
-//
-//    private func configureItemSelectionHandler() {
-//        contentView?.configureItemSelectionHandler = { [weak self] urlString in
-//            guard let self = self, let url = URL(string: urlString) else { return }
-//            self.router?.showWebView(url)
-//        }
-//    }
+    private func setupRouter() {
+        if let navigationController = navigationController {
+            self.router = AtriclesFilterRouter(navigationController: navigationController)
+        }
+    }
+
+    private func configureApplyFilterButtonCompletion() {
+        contentView?.applyButtonCompletion = { [weak self] in
+            guard let self = self else { return }
+
+//            self.dismiss(animated: true)
+        }
+    }
 }
 
 // MARK: - FilterViewControllerProtocol
 
-extension FilterViewController: FilterViewControllerProtocol {
+extension AtriclesFilterViewController: AtriclesFilterViewControllerProtocol {
     func displayFilterData(viewModel: AtriclesFilterModel.AtriclesFilterViewModel) {
         contentView?.configureView(with: viewModel)
     }

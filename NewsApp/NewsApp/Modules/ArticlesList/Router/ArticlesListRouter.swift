@@ -10,6 +10,7 @@ import UIKit
 
 protocol ArticlesListRouterProtocol: AnyObject {
     func showWebView(_ url: URL)
+    func showFilter()
     func showFavoriteArticles()
 }
 
@@ -33,6 +34,11 @@ extension ArticlesListRouter: ArticlesListRouterProtocol {
     func showWebView(_ url: URL) {
         let webView = factory.makeWebViewScreen(url: url)
         navigationController.pushViewController(webView, animated: true)
+    }
+
+    func showFilter() {
+        let filterView = factory.makeArticlesFilterScreen()
+        navigationController.present(filterView, animated: true)
     }
 
     func showFavoriteArticles() {

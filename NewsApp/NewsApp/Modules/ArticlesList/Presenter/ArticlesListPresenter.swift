@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ArticlesListPresenterProtocol: AnyObject {
-    func presentArticlesList(data: ArticlesListModel.LoadData.ArticlesListResponse)
+    func presentArticlesList(data: ArticlesListModel.LoadData.ArticlesListResponse, isSortByAscending: Bool?)
     func presentErrorAlert(with errorDescription: String, handler: (() -> Void)?)
 }
 
@@ -21,7 +21,7 @@ final class ArticlesListPresenter {
 // MARK: - ArticlesListPresenterProtocol
 
 extension ArticlesListPresenter: ArticlesListPresenterProtocol {
-    func presentArticlesList(data: ArticlesListModel.LoadData.ArticlesListResponse) {
+    func presentArticlesList(data: ArticlesListModel.LoadData.ArticlesListResponse, isSortByAscending: Bool?) {
         var articles: [ArticlesListModel.Article] = []
 
         data.articlesData.articles.forEach { item in
@@ -36,6 +36,14 @@ extension ArticlesListPresenter: ArticlesListPresenterProtocol {
                 urlToImage: item.urlToImage ?? "",
                 publishedAt: item.publishedAt,
                 isItemSaved: false))
+        }
+
+        if let isSortByAscending {
+            if isSortByAscending {
+                articles.sort { $0.publishedAt.compare($1.publishedAt) == .orderedDescending }
+            } else {
+                articles.sort { $0.publishedAt.compare($1.publishedAt) == .orderedAscending }
+            }
         }
 
         let viewModel = ArticlesListModel.ArticlesListViewModel(

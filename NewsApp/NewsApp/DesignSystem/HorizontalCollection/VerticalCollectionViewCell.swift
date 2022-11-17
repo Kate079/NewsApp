@@ -1,6 +1,6 @@
 //
-//  HorizontalCollectionViewCell.swift
-//  Weather
+//  VerticalCollectionViewCell.swift
+//  NewsApp
 //
 //  Created by Kate on 17.11.2022.
 //
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class HorizontalCollectionViewCell: UICollectionViewCell {
+final class VerticalCollectionViewCell: UICollectionViewCell {
     // MARK: - Static properties
 
     static var reuseIdentifier: String {
@@ -44,7 +44,6 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
     private func configureUI() {
         backgroundColor = .systemGray4
         layer.cornerRadius = Constants.cornerRadius
-
         contentView.addSubview(titleLabel)
 
         NSLayoutConstraint.activate([
@@ -64,7 +63,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Layout constants
 
-extension HorizontalCollectionViewCell {
+extension VerticalCollectionViewCell {
     private struct Constants {
         static let cornerRadius: CGFloat = 16
         static let defaultEdgeInset: CGFloat = 16

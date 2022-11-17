@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NewsCountry: String {
+enum NewsCountry: String, CaseIterable {
     case ae
     case ar
     case at

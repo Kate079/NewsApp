@@ -11,6 +11,27 @@ import UIKit
 final class ArticlesListContentView: UIView {
     // MARK: - Subviews
 
+    private lazy var sortView: SortView = {
+        let view = SortView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isSortByAscendingCompletion = { [weak self] value in
+            guard let self = self else { return }
+            self.isSortByAscendingButtonHandler?(value)
+        }
+        return view
+    }()
+
+    private lazy var filterButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemGray4
+        button.layer.cornerRadius = Constants.cornerRadius
+        button.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
     private lazy var articlesListTableView: CustomTableView = {
         let tableView = CustomTableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +57,8 @@ final class ArticlesListContentView: UIView {
     var configureAccessoryButtonHandler: ((Int, Bool) -> Void)?
     var refreshTableViewCompletion: (() -> Void)?
     var configureLoadMoreDataCompletion: (() -> Void)?
+    var isSortByAscendingButtonHandler: ((Bool) -> Void)?
+    var configureFilterButtonCompletion: (() -> Void)?
 
     // MARK: - Private properties
 
@@ -58,10 +81,22 @@ final class ArticlesListContentView: UIView {
     private func configureUI() {
         backgroundColor = .systemGray6
 
+        addSubview(sortView)
+        addSubview(filterButton)
         addSubview(articlesListTableView)
 
         NSLayoutConstraint.activate([
-            articlesListTableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.largeEdgeInset),
+            filterButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            filterButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Constants.edgeInset)),
+            filterButton.heightAnchor.constraint(equalToConstant: Constants.sortViewHeight),
+            filterButton.widthAnchor.constraint(equalTo: filterButton.heightAnchor),
+
+            sortView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            sortView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            sortView.trailingAnchor.constraint(equalTo: filterButton.leadingAnchor),
+            sortView.heightAnchor.constraint(equalToConstant: Constants.sortViewHeight),
+
+            articlesListTableView.topAnchor.constraint(equalTo: sortView.bottomAnchor),
             articlesListTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             articlesListTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             articlesListTableView.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -73,13 +108,17 @@ final class ArticlesListContentView: UIView {
         articlesListTableView.configureView(with: articlesListViewModel.articles)
     }
 
+    @objc private func filterButtonTapped() {
+        configureFilterButtonCompletion?()
+    }
+
     // MARK: - Public methods
 
     func displayArticlesList(_ viewModel: ArticlesListModel.ArticlesListViewModel) {
         self.articlesListViewModel = viewModel
 
-        print(articlesListViewModel)
-        print(articlesListViewModel?.articles.count)
+//        print(articlesListViewModel?.articles)
+//        print(articlesListViewModel?.articles.count)
 
         updateArticlesListTableView()
     }
@@ -89,7 +128,9 @@ final class ArticlesListContentView: UIView {
 
 extension ArticlesListContentView {
     private enum Constants {
+        static let cornerRadius: CGFloat = 16
         static let edgeInset: CGFloat = 16
         static let largeEdgeInset: CGFloat = 64
+        static let sortViewHeight: CGFloat = 40
     }
 }

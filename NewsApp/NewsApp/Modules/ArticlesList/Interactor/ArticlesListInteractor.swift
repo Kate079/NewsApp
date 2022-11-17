@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ArticlesListInteractorProtocol: AnyObject {
-    func loadArticlesList(searchKeyword: String?, language: NewsLanguage?, sortBy: NewsSorting?, pageSize: Int?, page: Int?)
+    func loadArticlesList(searchKeyword: String?, sortBy: NewsSorting?, isSortByAscending: Bool, page: Int?)
     func loadArticlesTopHeadlines(country: NewsCountry?, category: NewsCategory?, sources: NewsSources?, searchKeyword: String?, page: Int?)
 }
 
@@ -31,12 +31,12 @@ final class ArticlesListInteractor {
 // MARK: - ArticlesListInteractorProtocol
 
 extension ArticlesListInteractor: ArticlesListInteractorProtocol {
-    func loadArticlesList(searchKeyword: String?, language: NewsLanguage?, sortBy: NewsSorting?, pageSize: Int?, page: Int?) {
-        newsService.getAllNews(data: NewsTarget.NewsRequestData(searchKeyword: searchKeyword, language: language, sortBy: sortBy, pageSize: pageSize, page: page)) { [weak self] result in
+    func loadArticlesList(searchKeyword: String?, sortBy: NewsSorting?, isSortByAscending: Bool, page: Int?) {
+        newsService.getAllNews(data: NewsTarget.NewsRequestData(searchKeyword: searchKeyword, language: NewsLanguage.en, sortBy: sortBy, pageSize: 20, page: page)) { [weak self] result in
             switch result {
             case .success(let response):
                 let responseData = ArticlesListModel.LoadData.ArticlesListResponse(articlesData: response)
-                self?.presenter?.presentArticlesList(data: responseData)
+                self?.presenter?.presentArticlesList(data: responseData, isSortByAscending: isSortByAscending)
             case .failure(let error):
                 self?.presenter?.presentErrorAlert(with: error.localizedText, handler: nil)
             }
@@ -48,7 +48,7 @@ extension ArticlesListInteractor: ArticlesListInteractorProtocol {
             switch result {
             case .success(let response):
                 let responseData = ArticlesListModel.LoadData.ArticlesListResponse(articlesData: response)
-                self?.presenter?.presentArticlesList(data: responseData)
+                self?.presenter?.presentArticlesList(data: responseData, isSortByAscending: nil)
             case .failure(let error):
                 self?.presenter?.presentErrorAlert(with: error.localizedText, handler: nil)
             }

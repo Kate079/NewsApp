@@ -19,7 +19,7 @@ enum ArticlesListModel {
         let articles: [Article]
     }
 
-    struct Article: Decodable {
+    struct Article {
         let source: Source
         let author: String
         let title: String
@@ -30,7 +30,7 @@ enum ArticlesListModel {
         let isItemSaved: Bool
     }
 
-    struct Source: Decodable {
+    struct Source {
         let id: String
         let name: String
     }

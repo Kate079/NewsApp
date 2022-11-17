@@ -1,6 +1,6 @@
 //
 //  VerticalCollectionView.swift
-//  Weather
+//  NewsApp
 //
 //  Created by Kate on 17.11.2022.
 //
@@ -14,8 +14,8 @@ final class VerticalCollectionView: UIView {
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
-        collectionView.register(HorizontalCollectionViewCell.self, forCellWithReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier)
-        collectionView.register(HorizontalCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HorizontalCollectionViewHeader.reuseIdentifier)
+        collectionView.register(VerticalCollectionViewCell.self, forCellWithReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier)
+        collectionView.register(VerticalCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: VerticalCollectionViewHeader.reuseIdentifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -79,7 +79,7 @@ extension VerticalCollectionView: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier, for: indexPath) as? HorizontalCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier, for: indexPath) as? VerticalCollectionViewCell
         else { return UICollectionViewCell() }
 
         if let configurationData = configurationData {
@@ -96,7 +96,7 @@ extension VerticalCollectionView: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HorizontalCollectionViewHeader.reuseIdentifier, for: indexPath) as? HorizontalCollectionViewHeader else {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: VerticalCollectionViewHeader.reuseIdentifier, for: indexPath) as? VerticalCollectionViewHeader else {
             return UICollectionReusableView()
         }
         if let configurationData = configurationData {

@@ -32,6 +32,16 @@
 		24A5163529251081007161C2 /* NewsSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A5163429251081007161C2 /* NewsSources.swift */; };
 		24A516372925161E007161C2 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A516362925161E007161C2 /* WebViewController.swift */; };
 		24A5164229255C18007161C2 /* CustomTableViewLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A5164129255C18007161C2 /* CustomTableViewLoadingCell.swift */; };
+		24A51666292620E4007161C2 /* VerticalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A51664292620E4007161C2 /* VerticalCollectionViewCell.swift */; };
+		24A51667292620E4007161C2 /* VerticalCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A51665292620E4007161C2 /* VerticalCollectionView.swift */; };
+		24A5166B29262789007161C2 /* SortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A5166A29262789007161C2 /* SortView.swift */; };
+		24A5166E29265E90007161C2 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A5166D29265E90007161C2 /* FilterView.swift */; };
+		24A51671292671A1007161C2 /* AtriclesFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A51670292671A1007161C2 /* AtriclesFilterViewController.swift */; };
+		24A5167529267435007161C2 /* AtriclesFilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A5167429267435007161C2 /* AtriclesFilterModel.swift */; };
+		24A51678292676CF007161C2 /* AtriclesFilterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A51677292676CF007161C2 /* AtriclesFilterInteractor.swift */; };
+		24A5167B292677D5007161C2 /* AtriclesFilterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A5167A292677D5007161C2 /* AtriclesFilterPresenter.swift */; };
+		24A5167D292682CD007161C2 /* VerticalCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A5167C292682CD007161C2 /* VerticalCollectionViewHeader.swift */; };
+		24A516802926ABD7007161C2 /* AtriclesFilterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A5167F2926ABD7007161C2 /* AtriclesFilterRouter.swift */; };
 		3608E37A2ADE0EFC7758C46F /* Pods_NewsApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88574090BAC94707C6F7DA8D /* Pods_NewsApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +73,16 @@
 		24A5163429251081007161C2 /* NewsSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSources.swift; sourceTree = "<group>"; };
 		24A516362925161E007161C2 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		24A5164129255C18007161C2 /* CustomTableViewLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewLoadingCell.swift; sourceTree = "<group>"; };
+		24A51664292620E4007161C2 /* VerticalCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalCollectionViewCell.swift; sourceTree = "<group>"; };
+		24A51665292620E4007161C2 /* VerticalCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalCollectionView.swift; sourceTree = "<group>"; };
+		24A5166A29262789007161C2 /* SortView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortView.swift; sourceTree = "<group>"; };
+		24A5166D29265E90007161C2 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		24A51670292671A1007161C2 /* AtriclesFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtriclesFilterViewController.swift; sourceTree = "<group>"; };
+		24A5167429267435007161C2 /* AtriclesFilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtriclesFilterModel.swift; sourceTree = "<group>"; };
+		24A51677292676CF007161C2 /* AtriclesFilterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtriclesFilterInteractor.swift; sourceTree = "<group>"; };
+		24A5167A292677D5007161C2 /* AtriclesFilterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtriclesFilterPresenter.swift; sourceTree = "<group>"; };
+		24A5167C292682CD007161C2 /* VerticalCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCollectionViewHeader.swift; sourceTree = "<group>"; };
+		24A5167F2926ABD7007161C2 /* AtriclesFilterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtriclesFilterRouter.swift; sourceTree = "<group>"; };
 		4CDAA4D8555044167E4D4819 /* Pods-NewsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsApp.release.xcconfig"; path = "Target Support Files/Pods-NewsApp/Pods-NewsApp.release.xcconfig"; sourceTree = "<group>"; };
 		79C6948A693BACF5FB8F6DC7 /* Pods-NewsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsApp.debug.xcconfig"; path = "Target Support Files/Pods-NewsApp/Pods-NewsApp.debug.xcconfig"; sourceTree = "<group>"; };
 		88574090BAC94707C6F7DA8D /* Pods_NewsApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewsApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				24A5161229229CBD007161C2 /* ArticlesList */,
+				24A5166F2926715F007161C2 /* AtriclesFilter */,
 				24A51638292534A6007161C2 /* WebView */,
 			);
 			path = Modules;
@@ -256,9 +277,10 @@
 		24A5162629239EEF007161C2 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
-				24A5162729239F46007161C2 /* CustomTableView.swift */,
-				24A516292923A0C4007161C2 /* CustomTableViewCell.swift */,
-				24A5164129255C18007161C2 /* CustomTableViewLoadingCell.swift */,
+				24A5166C29265A9D007161C2 /* FilterView */,
+				24A516692926276E007161C2 /* SortView */,
+				24A5166829262767007161C2 /* CustomTableView */,
+				24A51663292620E4007161C2 /* HorizontalCollection */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -281,6 +303,94 @@
 				24A516362925161E007161C2 /* WebViewController.swift */,
 			);
 			path = WebView;
+			sourceTree = "<group>";
+		};
+		24A51663292620E4007161C2 /* HorizontalCollection */ = {
+			isa = PBXGroup;
+			children = (
+				24A51665292620E4007161C2 /* VerticalCollectionView.swift */,
+				24A51664292620E4007161C2 /* VerticalCollectionViewCell.swift */,
+				24A5167C292682CD007161C2 /* VerticalCollectionViewHeader.swift */,
+			);
+			path = HorizontalCollection;
+			sourceTree = "<group>";
+		};
+		24A5166829262767007161C2 /* CustomTableView */ = {
+			isa = PBXGroup;
+			children = (
+				24A5162729239F46007161C2 /* CustomTableView.swift */,
+				24A516292923A0C4007161C2 /* CustomTableViewCell.swift */,
+				24A5164129255C18007161C2 /* CustomTableViewLoadingCell.swift */,
+			);
+			path = CustomTableView;
+			sourceTree = "<group>";
+		};
+		24A516692926276E007161C2 /* SortView */ = {
+			isa = PBXGroup;
+			children = (
+				24A5166A29262789007161C2 /* SortView.swift */,
+			);
+			path = SortView;
+			sourceTree = "<group>";
+		};
+		24A5166C29265A9D007161C2 /* FilterView */ = {
+			isa = PBXGroup;
+			children = (
+				24A5166D29265E90007161C2 /* FilterView.swift */,
+			);
+			path = FilterView;
+			sourceTree = "<group>";
+		};
+		24A5166F2926715F007161C2 /* AtriclesFilter */ = {
+			isa = PBXGroup;
+			children = (
+				24A5167329267415007161C2 /* Model */,
+				24A516722926740A007161C2 /* Controller */,
+				24A5167629267671007161C2 /* Interactor */,
+				24A51679292677BF007161C2 /* Presenter */,
+				24A5167E2926ABB6007161C2 /* Router */,
+			);
+			path = AtriclesFilter;
+			sourceTree = "<group>";
+		};
+		24A516722926740A007161C2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				24A51670292671A1007161C2 /* AtriclesFilterViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		24A5167329267415007161C2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				24A5167429267435007161C2 /* AtriclesFilterModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		24A5167629267671007161C2 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				24A51677292676CF007161C2 /* AtriclesFilterInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		24A51679292677BF007161C2 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				24A5167A292677D5007161C2 /* AtriclesFilterPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		24A5167E2926ABB6007161C2 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				24A5167F2926ABD7007161C2 /* AtriclesFilterRouter.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		45FB50A348990387D429B191 /* Pods */ = {
@@ -415,27 +525,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				24A5160D29226660007161C2 /* NewsResponse.swift in Sources */,
+				24A51678292676CF007161C2 /* AtriclesFilterInteractor.swift in Sources */,
 				24A516372925161E007161C2 /* WebViewController.swift in Sources */,
 				24A516222922A30A007161C2 /* ArticlesListContentView.swift in Sources */,
 				24A5162A2923A0C4007161C2 /* CustomTableViewCell.swift in Sources */,
+				24A5166E29265E90007161C2 /* FilterView.swift in Sources */,
 				24A5162D292505FC007161C2 /* NewsCategory.swift in Sources */,
 				24A5161C2922A07F007161C2 /* ArticlesListInteractor.swift in Sources */,
 				24A515F129225E72007161C2 /* ArticlesListViewController.swift in Sources */,
+				24A5167D292682CD007161C2 /* VerticalCollectionViewHeader.swift in Sources */,
 				24A5160A29226625007161C2 /* NewsError.swift in Sources */,
 				24A5163329250A92007161C2 /* NewsSorting.swift in Sources */,
 				24A5162829239F46007161C2 /* CustomTableView.swift in Sources */,
+				24A5166B29262789007161C2 /* SortView.swift in Sources */,
 				24A515ED29225E72007161C2 /* AppDelegate.swift in Sources */,
 				24A5164229255C18007161C2 /* CustomTableViewLoadingCell.swift in Sources */,
+				24A5167B292677D5007161C2 /* AtriclesFilterPresenter.swift in Sources */,
+				24A51671292671A1007161C2 /* AtriclesFilterViewController.swift in Sources */,
 				24A51610292266F8007161C2 /* StringConstants.swift in Sources */,
 				24A51608292265D9007161C2 /* NewsTarget.swift in Sources */,
 				24A516312925073D007161C2 /* NewsCountry.swift in Sources */,
 				24A5163529251081007161C2 /* NewsSources.swift in Sources */,
+				24A51667292620E4007161C2 /* VerticalCollectionView.swift in Sources */,
 				24A5161E2922A0D5007161C2 /* ArticlesListPresenter.swift in Sources */,
 				24A516252922A451007161C2 /* MainFactory.swift in Sources */,
+				24A516802926ABD7007161C2 /* AtriclesFilterRouter.swift in Sources */,
 				24A5161A29229E1F007161C2 /* ArticlesListModel.swift in Sources */,
 				24A5162F292506D4007161C2 /* NewsLanguage.swift in Sources */,
 				24A5160629226529007161C2 /* NewsService.swift in Sources */,
+				24A5167529267435007161C2 /* AtriclesFilterModel.swift in Sources */,
 				24A515EF29225E72007161C2 /* SceneDelegate.swift in Sources */,
+				24A51666292620E4007161C2 /* VerticalCollectionViewCell.swift in Sources */,
 				24A516202922A253007161C2 /* ArticlesListRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

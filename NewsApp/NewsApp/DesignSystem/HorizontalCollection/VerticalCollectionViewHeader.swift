@@ -1,5 +1,5 @@
 //
-//  HorizontalCollectionViewHeader.swift
+//  VerticalCollectionViewHeader.swift
 //  NewsApp
 //
 //  Created by Kate on 17.11.2022.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class HorizontalCollectionViewHeader: UICollectionReusableView {
+final class VerticalCollectionViewHeader: UICollectionReusableView {
     // MARK: - Static properties
 
     static var reuseIdentifier: String {

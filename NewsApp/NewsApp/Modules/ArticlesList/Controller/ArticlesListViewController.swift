@@ -56,11 +56,13 @@ class ArticlesListViewController: UIViewController {
         navigationItem.title = "Breaking News"
         navigationController?.isNavigationBarHidden = false
         setupRouter()
-        fetchArticlesList()
+        fetchArticlesList(page: 1)
         configureSearchController()
         configureItemSelectionHandler()
         refreshTableViewCompletion()
         configureLoadMoreDataCompletion()
+        sortByAscendingButtonHandler()
+        configureFilterButtonCompletion()
     }
 
     // MARK: - Private methods
@@ -71,8 +73,8 @@ class ArticlesListViewController: UIViewController {
         }
     }
 
-    private func fetchArticlesList() {
-        interactor?.loadArticlesList(searchKeyword: "Ukraine", language: NewsLanguage.en, sortBy: NewsSorting.publishedAt, pageSize: 5, page: currentPage)
+    private func fetchArticlesList(searchKeyword: String? = "Ukraine", sortBy: NewsSorting? = .publishedAt, isSortByAscending: Bool = true, page: Int?) {
+        interactor?.loadArticlesList(searchKeyword: searchKeyword, sortBy: sortBy, isSortByAscending: isSortByAscending, page: page)
     }
 
     private func configureAccessoryButtonHandler() {
@@ -103,7 +105,7 @@ class ArticlesListViewController: UIViewController {
     private func refreshTableViewCompletion() {
         contentView?.refreshTableViewCompletion = { [weak self] in
             guard let self = self else { return }
-            self.interactor?.loadArticlesList(searchKeyword: "Ukraine", language: NewsLanguage.en, sortBy: NewsSorting.publishedAt, pageSize: 20, page: 1)
+            self.fetchArticlesList(page: 1)
         }
     }
 
@@ -111,7 +113,21 @@ class ArticlesListViewController: UIViewController {
         contentView?.configureLoadMoreDataCompletion = { [weak self] in
             guard let self = self else { return }
             self.currentPage += 1
-            self.interactor?.loadArticlesList(searchKeyword: "Ukraine", language: NewsLanguage.en, sortBy: NewsSorting.publishedAt, pageSize: 5, page: self.currentPage)
+            self.fetchArticlesList(page: self.currentPage)
+        }
+    }
+
+    private func sortByAscendingButtonHandler() {
+        contentView?.isSortByAscendingButtonHandler = { [weak self] value in
+            guard let self = self else { return }
+            self.fetchArticlesList(isSortByAscending: value, page: self.currentPage)
+        }
+    }
+
+    private func configureFilterButtonCompletion() {
+        contentView?.configureFilterButtonCompletion = { [weak self] in
+            guard let self = self else { return }
+            self.router?.showFilter()
         }
     }
 }
@@ -140,7 +156,7 @@ extension ArticlesListViewController: UISearchBarDelegate {
         timer?.invalidate()
 
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
-            self?.interactor?.loadArticlesList(searchKeyword: searchText, language: NewsLanguage.en, sortBy: NewsSorting.relevancy, pageSize: 20, page: 1)
+            self?.fetchArticlesList(searchKeyword: searchText, sortBy: NewsSorting.relevancy, page: 1)
         }
     }
 }

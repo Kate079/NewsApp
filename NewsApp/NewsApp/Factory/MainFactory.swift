@@ -10,6 +10,7 @@ import UIKit
 
 protocol MainFactoryProtocol {
     func makeArticlesListScreen() -> ArticlesListViewController
+    func makeArticlesFilterScreen() -> AtriclesFilterViewController
     func makeWebViewScreen(url: URL) -> WebViewController
 }
 
@@ -18,6 +19,18 @@ final class MainFactory: MainFactoryProtocol {
         let controller = ArticlesListViewController(factory: self)
         let interactor = ArticlesListInteractor(newsService: NewsService())
         let presenter = ArticlesListPresenter()
+
+        controller.interactor = interactor
+        interactor.presenter = presenter
+        presenter.viewController = controller
+
+        return controller
+    }
+
+    func makeArticlesFilterScreen() -> AtriclesFilterViewController {
+        let controller = AtriclesFilterViewController()
+        let interactor = AtriclesFilterInteractor()
+        let presenter = AtriclesFilterPresenter()
 
         controller.interactor = interactor
         interactor.presenter = presenter

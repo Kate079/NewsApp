@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NewsSources: String {
+enum NewsSources: String, CaseIterable {
     case bbcNews = "bbc-news"
     case bbcSport = "bbc-sport"
     case bloomberg = "bloomberg"

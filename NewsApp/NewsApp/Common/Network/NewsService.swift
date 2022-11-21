@@ -10,12 +10,6 @@ import Moya
 
 protocol NewsServiceProtocol {
     typealias HeadlinesRequestData = NewsTarget.HeadlinesRequestData
-    typealias NewsRequestData = NewsTarget.NewsRequestData
-
-    func getAllNews(
-        data: NewsRequestData,
-        completion: @escaping ((Result<NewsResponse, NewsError>) -> Void)
-    )
 
     func getTopHeadlines(
         data: HeadlinesRequestData,
@@ -48,7 +42,6 @@ class NewsService {
                     return completion(.failure(.networkError))
                 }
                 completion(.failure(self.failureResponse(response: errorResponse)))
-
             }
         }
     }
@@ -56,12 +49,14 @@ class NewsService {
     private func failureResponse(response: Response) -> NewsError {
         var error: NewsError
         switch response.statusCode {
+        case 400:
+            error = .badRequest
         case 401:
-            error = .permissionDenied
-        case 404:
-            return .notFound
+            return .permissionDenied
         case 429:
             return .tooManyRequests
+        case 500:
+            return .serverError
         default:
             error = .unknownError
         }
@@ -72,14 +67,6 @@ class NewsService {
 // MARK: - WeatherServiceProtocol
 
 extension NewsService: NewsServiceProtocol {
-    func getAllNews(
-        data: NewsRequestData,
-        completion: @escaping ((Result<NewsResponse, NewsError>) -> Void)
-    ) {
-        let target = NewsTarget.getAllNews(data, apiKey: StringConstants.apiKey)
-        loadData(target: target, completion: completion)
-    }
-
     func getTopHeadlines(
         data: HeadlinesRequestData,
         completion: @escaping ((Result<NewsResponse, NewsError>) -> Void)

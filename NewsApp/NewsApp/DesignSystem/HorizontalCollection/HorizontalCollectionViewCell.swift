@@ -1,5 +1,5 @@
 //
-//  VerticalCollectionViewCell.swift
+//  HorizontalCollectionViewCell.swift
 //  NewsApp
 //
 //  Created by Kate on 17.11.2022.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class VerticalCollectionViewCell: UICollectionViewCell {
+final class HorizontalCollectionViewCell: UICollectionViewCell {
     // MARK: - Static properties
 
     static var reuseIdentifier: String {
@@ -26,6 +26,18 @@ final class VerticalCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
+    // MARK: - Public properties
+
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                setSelection()
+            } else {
+                removeSelection()
+            }
+        }
+    }
 
     // MARK: - Lifecycle
 
@@ -54,6 +66,16 @@ final class VerticalCollectionViewCell: UICollectionViewCell {
         ])
     }
 
+    private func setSelection() {
+        backgroundColor = .red.withAlphaComponent(0.5)
+        titleLabel.textColor = .white
+    }
+
+    private func removeSelection() {
+        backgroundColor = .systemGray4
+        titleLabel.textColor = .black
+    }
+
     // MARK: - Public methods
 
     func configure(_ item: String) {
@@ -63,10 +85,8 @@ final class VerticalCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Layout constants
 
-extension VerticalCollectionViewCell {
+extension HorizontalCollectionViewCell {
     private struct Constants {
         static let cornerRadius: CGFloat = 16
-        static let defaultEdgeInset: CGFloat = 16
-        static let smallEdgeInset: CGFloat = 8
     }
 }

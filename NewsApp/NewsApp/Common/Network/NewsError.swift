@@ -9,18 +9,17 @@ import Foundation
 
 enum NewsError: Error {
     case parsingError
-    case notFound
     case permissionDenied
     case unknownError
     case networkError
     case tooManyRequests
+    case badRequest
+    case serverError
 
     var localizedText: String {
         switch self {
-        case .parsingError:
+        case .parsingError, .badRequest, .serverError:
             return "Під час завантаження даних виникла помилка. Спробуйте пізніше."
-        case .notFound:
-            return "Дані не знайдено."
         case .permissionDenied:
             return "Помилка доступу."
         case .unknownError:

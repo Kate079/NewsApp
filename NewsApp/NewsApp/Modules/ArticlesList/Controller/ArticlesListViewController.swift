@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol ArticlesListViewControllerProtocol: AnyObject {
-    func displayArticlesList(viewModel: ArticlesListModel.ArticlesListViewModel)
+    func displayArticlesList(viewModel: ArticlesListModel.ArticlesListViewModel, isPagination: Bool, isFilterSelected: Bool)
     func showErrorAlert(with errorDescription: String, handler: (() -> Void)?)
 }
 
@@ -30,9 +31,13 @@ class ArticlesListViewController: UIViewController {
     private var contentView: ArticlesListContentView? {
         return view as? ArticlesListContentView
     }
+    private let realm = try! Realm()
+    private lazy var filters = realm.objects(SelectedFilter.self)
     private var factory: MainFactoryProtocol
     private var timer: Timer?
     private var currentPage = 1
+    private var searchKeyword: String?
+    private var isSortByAscending = true
 
     // MARK: - Lifecycle
 
@@ -56,13 +61,26 @@ class ArticlesListViewController: UIViewController {
         navigationItem.title = "Breaking News"
         navigationController?.isNavigationBarHidden = false
         setupRouter()
-        fetchArticlesList(page: 1)
         configureSearchController()
         configureItemSelectionHandler()
         refreshTableViewCompletion()
         configureLoadMoreDataCompletion()
         sortByAscendingButtonHandler()
         configureFilterButtonCompletion()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if filters.isEmpty {
+            fetchTopHeadlines()
+        } else {
+            let country = getFilterValueForKey(StringConstants.country)
+            let category = getFilterValueForKey(StringConstants.category)
+            let sources = getFilterValueForKey(StringConstants.sources)
+
+            fetchTopHeadlines(country: country, category: category, sources: sources, searchKeyword: nil, isSortByAscending: isSortByAscending, isFilterSelected: true)
+        }
     }
 
     // MARK: - Private methods
@@ -73,8 +91,16 @@ class ArticlesListViewController: UIViewController {
         }
     }
 
-    private func fetchArticlesList(searchKeyword: String? = "Ukraine", sortBy: NewsSorting? = .publishedAt, isSortByAscending: Bool = true, page: Int?) {
-        interactor?.loadArticlesList(searchKeyword: searchKeyword, sortBy: sortBy, isSortByAscending: isSortByAscending, page: page)
+    private func fetchTopHeadlines(
+        country: String? = nil,
+        category: String? = nil,
+        sources: String? = nil,
+        searchKeyword: String? = "Ukraine",
+        page: Int = 1,
+        isPagination: Bool = false,
+        isSortByAscending: Bool = true,
+        isFilterSelected: Bool = false) {
+        interactor?.loadArticlesTopHeadlines(country: country, category: category, sources: sources, searchKeyword: searchKeyword, page: page, isPagination: isPagination, isSortByAscending: isSortByAscending, isFilterSelected: isFilterSelected)
     }
 
     private func configureAccessoryButtonHandler() {
@@ -105,7 +131,19 @@ class ArticlesListViewController: UIViewController {
     private func refreshTableViewCompletion() {
         contentView?.refreshTableViewCompletion = { [weak self] in
             guard let self = self else { return }
-            self.fetchArticlesList(page: 1)
+            if self.filters.isEmpty {
+                guard let searchKeyword = self.searchKeyword else {
+                    self.fetchTopHeadlines(isSortByAscending: self.isSortByAscending)
+                    return
+                }
+                self.fetchTopHeadlines(searchKeyword: searchKeyword, isSortByAscending: self.isSortByAscending)
+            } else {
+                let country = self.getFilterValueForKey(StringConstants.country)
+                let category = self.getFilterValueForKey(StringConstants.category)
+                let sources = self.getFilterValueForKey(StringConstants.sources)
+
+                self.fetchTopHeadlines(country: country, category: category, sources: sources, searchKeyword: nil, isSortByAscending: self.isSortByAscending, isFilterSelected: true)
+            }
         }
     }
 
@@ -113,14 +151,39 @@ class ArticlesListViewController: UIViewController {
         contentView?.configureLoadMoreDataCompletion = { [weak self] in
             guard let self = self else { return }
             self.currentPage += 1
-            self.fetchArticlesList(page: self.currentPage)
+            if self.filters.isEmpty {
+                guard let searchKeyword = self.searchKeyword else {
+                    self.fetchTopHeadlines(page: self.currentPage, isPagination: true, isSortByAscending: self.isSortByAscending)
+                    return
+                }
+                self.fetchTopHeadlines(searchKeyword: searchKeyword, page: self.currentPage, isPagination: true, isSortByAscending: self.isSortByAscending)
+            } else {
+                let country = self.getFilterValueForKey(StringConstants.country)
+                let category = self.getFilterValueForKey(StringConstants.category)
+                let sources = self.getFilterValueForKey(StringConstants.sources)
+
+                guard let searchKeyword = self.searchKeyword else {
+                    self.fetchTopHeadlines(country: country, category: category, sources: sources, searchKeyword: nil, page: self.currentPage, isPagination: true, isSortByAscending: self.isSortByAscending, isFilterSelected: true)
+                    return
+                }
+                self.fetchTopHeadlines(country: country, category: category, sources: sources, searchKeyword: searchKeyword, page: self.currentPage, isPagination: true, isSortByAscending: self.isSortByAscending, isFilterSelected: true)
+            }
         }
     }
 
     private func sortByAscendingButtonHandler() {
         contentView?.isSortByAscendingButtonHandler = { [weak self] value in
             guard let self = self else { return }
-            self.fetchArticlesList(isSortByAscending: value, page: self.currentPage)
+            self.isSortByAscending = value
+            if self.filters.isEmpty {
+                self.fetchTopHeadlines(isSortByAscending: value)
+            } else {
+                let country = self.getFilterValueForKey(StringConstants.country)
+                let category = self.getFilterValueForKey(StringConstants.category)
+                let sources = self.getFilterValueForKey(StringConstants.sources)
+
+                self.fetchTopHeadlines(country: country, category: category, sources: sources, searchKeyword: nil, page: self.currentPage, isSortByAscending: value, isFilterSelected: true)
+            }
         }
     }
 
@@ -130,22 +193,24 @@ class ArticlesListViewController: UIViewController {
             self.router?.showFilter()
         }
     }
+
+    private func getFilterValueForKey(_ key: String) -> String? {
+        filters.last?.filters.value(forKey: key) as? String
+    }
 }
 
 // MARK: - ArticlesListViewControllerProtocol
 
 extension ArticlesListViewController: ArticlesListViewControllerProtocol {
-    func displayArticlesList(viewModel: ArticlesListModel.ArticlesListViewModel) {
-        contentView?.displayArticlesList(viewModel)
+    func displayArticlesList(viewModel: ArticlesListModel.ArticlesListViewModel, isPagination: Bool, isFilterSelected: Bool) {
+        contentView?.displayArticlesList(viewModel.articles, isPagination: isPagination, isFilterSelected: isFilterSelected)
     }
 
     func showErrorAlert(with errorDescription: String, handler: (() -> Void)?) {
-//        let alert = AlertController(title: StringConstants.errorTitle, message: errorDescription)
-//        alert.tapButtonOnAlertCompletion = handler
-//        alert.setAction(titleForButton: StringConstants.okTitle)
-//        self.present(alert, animated: true)
-
-        print(errorDescription)
+        let alert = AlertController(title: StringConstants.errorTitle, message: errorDescription)
+        alert.tapButtonOnAlertCompletion = handler
+        alert.setAction(titleForButton: StringConstants.okTitle)
+        self.present(alert, animated: true)
     }
 }
 
@@ -156,7 +221,13 @@ extension ArticlesListViewController: UISearchBarDelegate {
         timer?.invalidate()
 
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
-            self?.fetchArticlesList(searchKeyword: searchText, sortBy: NewsSorting.relevancy, page: 1)
+            guard let self else { return }
+            self.searchKeyword = searchText
+            self.fetchTopHeadlines(searchKeyword: searchText, isSortByAscending: self.isSortByAscending)
         }
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchKeyword = nil
     }
 }

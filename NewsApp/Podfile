@@ -4,5 +4,6 @@ target 'NewsApp' do
   use_frameworks!
 
   pod 'Moya', '~> 15.0'
+  pod 'RealmSwift'
 
 end

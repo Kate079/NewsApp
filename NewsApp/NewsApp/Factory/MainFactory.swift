@@ -10,7 +10,7 @@ import UIKit
 
 protocol MainFactoryProtocol {
     func makeArticlesListScreen() -> ArticlesListViewController
-    func makeArticlesFilterScreen() -> AtriclesFilterViewController
+    func makeArticlesFilterScreen() -> ArticlesFilterViewController
     func makeWebViewScreen(url: URL) -> WebViewController
 }
 
@@ -27,10 +27,10 @@ final class MainFactory: MainFactoryProtocol {
         return controller
     }
 
-    func makeArticlesFilterScreen() -> AtriclesFilterViewController {
-        let controller = AtriclesFilterViewController()
-        let interactor = AtriclesFilterInteractor()
-        let presenter = AtriclesFilterPresenter()
+    func makeArticlesFilterScreen() -> ArticlesFilterViewController {
+        let controller = ArticlesFilterViewController()
+        let interactor = ArticlesFilterInteractor()
+        let presenter = ArticlesFilterPresenter()
 
         controller.interactor = interactor
         interactor.presenter = presenter

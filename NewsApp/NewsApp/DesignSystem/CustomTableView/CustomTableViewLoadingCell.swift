@@ -24,18 +24,6 @@ final class CustomTableViewLoadingCell: UITableViewCell {
         return activityIndicator
     }()
 
-    // MARK: - Private properties
-
-    private var isAccessoryButtonSelected: Bool? {
-        didSet {
-            accessoryButtonSelectedCompletion?(isAccessoryButtonSelected)
-        }
-    }
-
-    // MARK: - Public properties
-
-    var accessoryButtonSelectedCompletion: ((Bool?) -> Void)?
-
     // MARK: - Lifecycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

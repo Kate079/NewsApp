@@ -18,6 +18,7 @@ final class ArticlesListContentView: UIView {
             guard let self = self else { return }
             self.isSortByAscendingButtonHandler?(value)
         }
+        view.isAscendingButtonSelectedByDefault = true
         return view
     }()
 
@@ -62,7 +63,7 @@ final class ArticlesListContentView: UIView {
 
     // MARK: - Private properties
 
-    private var articlesListViewModel: ArticlesListModel.ArticlesListViewModel?
+    private var articlesListViewModel: [ArticlesListModel.Article] = []
 
     // MARK: - Lifecycle
 
@@ -103,9 +104,20 @@ final class ArticlesListContentView: UIView {
         ])
     }
 
+    private func setFilterButtonSelect(_ button: UIButton) {
+        button.isSelected = true
+        button.backgroundColor = .red.withAlphaComponent(0.5)
+        button.tintColor = .white
+    }
+
+    private func setFilterButtonDeselect(_ button: UIButton) {
+        button.isSelected = false
+        button.backgroundColor = .systemGray4
+        button.tintColor = .black
+    }
+
     private func updateArticlesListTableView() {
-        guard let articlesListViewModel else { return }
-        articlesListTableView.configureView(with: articlesListViewModel.articles)
+        articlesListTableView.configureView(with: articlesListViewModel)
     }
 
     @objc private func filterButtonTapped() {
@@ -114,12 +126,17 @@ final class ArticlesListContentView: UIView {
 
     // MARK: - Public methods
 
-    func displayArticlesList(_ viewModel: ArticlesListModel.ArticlesListViewModel) {
-        self.articlesListViewModel = viewModel
-
-//        print(articlesListViewModel?.articles)
-//        print(articlesListViewModel?.articles.count)
-
+    func displayArticlesList(_ viewModel: [ArticlesListModel.Article], isPagination: Bool, isFilterSelected: Bool) {
+        if isPagination {
+            articlesListViewModel.append(contentsOf: viewModel)
+        } else {
+            articlesListViewModel = viewModel
+        }
+        if isFilterSelected {
+            setFilterButtonSelect(filterButton)
+        } else {
+            setFilterButtonDeselect(filterButton)
+        }
         updateArticlesListTableView()
     }
 }

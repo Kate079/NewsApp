@@ -8,8 +8,7 @@
 import Foundation
 
 protocol ArticlesListInteractorProtocol: AnyObject {
-    func loadArticlesList(searchKeyword: String?, sortBy: NewsSorting?, isSortByAscending: Bool, page: Int?)
-    func loadArticlesTopHeadlines(country: NewsCountry?, category: NewsCategory?, sources: NewsSources?, searchKeyword: String?, page: Int?)
+    func loadArticlesTopHeadlines(country: String?, category: String?, sources: String?, searchKeyword: String?, page: Int, isPagination: Bool, isSortByAscending: Bool, isFilterSelected: Bool)
 }
 
 final class ArticlesListInteractor {
@@ -31,26 +30,20 @@ final class ArticlesListInteractor {
 // MARK: - ArticlesListInteractorProtocol
 
 extension ArticlesListInteractor: ArticlesListInteractorProtocol {
-    func loadArticlesList(searchKeyword: String?, sortBy: NewsSorting?, isSortByAscending: Bool, page: Int?) {
-        newsService.getAllNews(data: NewsTarget.NewsRequestData(searchKeyword: searchKeyword, language: NewsLanguage.en, sortBy: sortBy, pageSize: 20, page: page)) { [weak self] result in
-            switch result {
-            case .success(let response):
-                let responseData = ArticlesListModel.LoadData.ArticlesListResponse(articlesData: response)
-                self?.presenter?.presentArticlesList(data: responseData, isSortByAscending: isSortByAscending)
-            case .failure(let error):
-                self?.presenter?.presentErrorAlert(with: error.localizedText, handler: nil)
-            }
-        }
-    }
-
-    func loadArticlesTopHeadlines(country: NewsCountry?, category: NewsCategory?, sources: NewsSources?, searchKeyword: String?, page: Int?) {
-        newsService.getTopHeadlines(data: NewsTarget.HeadlinesRequestData(country: country, category: category, sources: sources, searchKeyword: searchKeyword, page: page)) { [weak self] result in
-            switch result {
-            case .success(let response):
-                let responseData = ArticlesListModel.LoadData.ArticlesListResponse(articlesData: response)
-                self?.presenter?.presentArticlesList(data: responseData, isSortByAscending: nil)
-            case .failure(let error):
-                self?.presenter?.presentErrorAlert(with: error.localizedText, handler: nil)
+    func loadArticlesTopHeadlines(country: String?, category: String?, sources: String?, searchKeyword: String?, page: Int, isPagination: Bool, isSortByAscending: Bool, isFilterSelected: Bool) {
+        if page < 6 {
+            let countryFilter = NewsCountry.allCases.filter { $0.rawValue == country }.first
+            let categoryFilter = NewsCategory.allCases.filter { $0.rawValue == category }.first
+            let sourcesFilter = NewsSources.allCases.filter { $0.name == sources }.first
+            
+            newsService.getTopHeadlines(data: NewsTarget.HeadlinesRequestData(country: countryFilter, category: categoryFilter, sources: sourcesFilter, searchKeyword: searchKeyword, page: page)) { [weak self] result in
+                switch result {
+                case .success(let response):
+                    let responseData = ArticlesListModel.LoadData.ArticlesListResponse(articlesData: response)
+                    self?.presenter?.presentArticlesList(data: responseData, isSortByAscending: isSortByAscending, isPagination: isPagination, isFilterSelected: isFilterSelected)
+                case .failure(let error):
+                    self?.presenter?.presentErrorAlert(with: error.localizedText, handler: nil)
+                }
             }
         }
     }

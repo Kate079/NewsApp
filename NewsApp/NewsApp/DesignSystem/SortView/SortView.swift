@@ -45,6 +45,13 @@ final class SortView: UIView {
     // MARK: - Public properties
 
     var isSortByAscendingCompletion: ((Bool) -> Void)?
+    var isAscendingButtonSelectedByDefault: Bool = false {
+        didSet {
+            if isAscendingButtonSelectedByDefault {
+                setButtonSelect(ascendingButton)
+            }
+        }
+    }
 
     // MARK: - Lifecycle
 

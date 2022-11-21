@@ -40,7 +40,7 @@ final class CustomTableView: UIView {
     }
     private(set) var savedItem: (Int, Bool)? {
         didSet {
-            // get index of saved item and if acBtw in cell is tapped
+            // TODO: get index of saved item and if acBtw in cell is tapped
             accessoryButtonSelectedCompletion?(savedItem)
         }
     }
@@ -68,10 +68,10 @@ final class CustomTableView: UIView {
         addSubview(tableView)
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.smallEdgeInset),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Constants.smallEdgeInset)),
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.smallEdgeInset),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Constants.smallEdgeInset))
+            tableView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.edgeInset),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(Constants.edgeInset)),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.edgeInset),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Constants.edgeInset))
         ])
     }
 
@@ -85,6 +85,7 @@ final class CustomTableView: UIView {
         configurationData = data
         tableView.reloadData()
         tableView.refreshControl?.endRefreshing()
+        isLoading = false
     }
 }
 
@@ -95,24 +96,14 @@ extension CustomTableView {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
 
-        if (offsetY > contentHeight - scrollView.frame.height * 4) && !isLoading {
+        if (offsetY + scrollView.frame.size.height > contentHeight && !isLoading) {
+            isLoading = true
             loadMoreData()
         }
     }
 
     private func loadMoreData() {
-        print(#function)
-
-        if !isLoading {
-            isLoading = true
-            print("IS LOADING")
-
-            loadMoreDataCompletion?()
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//                self.isLoading = false
-//            }
-        }
+        loadMoreDataCompletion?()
     }
 }
 
@@ -124,9 +115,10 @@ extension CustomTableView: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let configurationData else { return 0 }
         switch section {
         case 0:
-            return configurationData?.count ?? 0
+            return configurationData.count
         case 1:
             return 1
         default:
@@ -166,7 +158,6 @@ extension CustomTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let configurationData else { return }
         selectedItem = configurationData[indexPath.item].url
-
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -180,10 +171,8 @@ extension CustomTableView: UITableViewDelegate {
 extension CustomTableView {
     private struct Constants {
         static let cornerRadius: CGFloat = 16
-        static let smallEdgeInset: CGFloat = 8
-        static let edgeInset: CGFloat = 32
+        static let edgeInset: CGFloat = 8
         static let cellHeight: CGFloat = 240
         static let loadingCellHeight: CGFloat = 64
-        static let lineSpacing: CGFloat = 20
     }
 }

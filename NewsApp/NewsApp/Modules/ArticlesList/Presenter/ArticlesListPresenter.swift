@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ArticlesListPresenterProtocol: AnyObject {
-    func presentArticlesList(data: ArticlesListModel.LoadData.ArticlesListResponse, isSortByAscending: Bool?)
+    func presentArticlesList(data: ArticlesListModel.LoadData.ArticlesListResponse, isSortByAscending: Bool?, isPagination: Bool, isFilterSelected: Bool)
     func presentErrorAlert(with errorDescription: String, handler: (() -> Void)?)
 }
 
@@ -21,7 +21,7 @@ final class ArticlesListPresenter {
 // MARK: - ArticlesListPresenterProtocol
 
 extension ArticlesListPresenter: ArticlesListPresenterProtocol {
-    func presentArticlesList(data: ArticlesListModel.LoadData.ArticlesListResponse, isSortByAscending: Bool?) {
+    func presentArticlesList(data: ArticlesListModel.LoadData.ArticlesListResponse, isSortByAscending: Bool?, isPagination: Bool, isFilterSelected: Bool) {
         var articles: [ArticlesListModel.Article] = []
 
         data.articlesData.articles.forEach { item in
@@ -50,7 +50,7 @@ extension ArticlesListPresenter: ArticlesListPresenterProtocol {
             totalResults: data.articlesData.totalResults,
             articles: articles)
 
-        viewController?.displayArticlesList(viewModel: viewModel)
+        viewController?.displayArticlesList(viewModel: viewModel, isPagination: isPagination, isFilterSelected: isFilterSelected)
     }
 
     func presentErrorAlert(with errorDescription: String, handler: (() -> Void)?) {

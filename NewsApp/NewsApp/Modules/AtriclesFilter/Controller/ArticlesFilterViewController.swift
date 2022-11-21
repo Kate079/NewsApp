@@ -15,6 +15,7 @@ protocol ArticlesFilterViewControllerProtocol: AnyObject {
 class ArticlesFilterViewController: UIViewController {
     // MARK: - Public properties
 
+    var router: ArticlesFilterRouterProtocol?
     var interactor: ArticlesFilterInteractorProtocol?
 
     // MARK: - Private properties
@@ -32,7 +33,9 @@ class ArticlesFilterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        navigationItem.title = "Filter"
+        setupRouter()
         configureApplyFilterButtonCompletion()
         interactor?.setupFilerData()
     }
@@ -44,6 +47,12 @@ class ArticlesFilterViewController: UIViewController {
     }
 
     // MARK: - Private methods
+
+    private func setupRouter() {
+        if let navigationController = navigationController {
+            self.router = ArticlesFilterRouter(navigationController: navigationController)
+        }
+    }
 
     private func configureApplyFilterButtonCompletion() {
         contentView?.applyButtonCompletion = { [weak self] selectedFilters in
@@ -58,7 +67,7 @@ class ArticlesFilterViewController: UIViewController {
                     self.realm.add(filter)
                 }
             }
-            self.dismiss(animated: true)
+            self.router?.returnToPreviousScreen()
         }
     }
 

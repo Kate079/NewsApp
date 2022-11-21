@@ -38,7 +38,7 @@ extension ArticlesListRouter: ArticlesListRouterProtocol {
 
     func showFilter() {
         let filterView = factory.makeArticlesFilterScreen()
-        navigationController.present(filterView, animated: true)
+        navigationController.pushViewController(filterView, animated: true)
     }
 
     func showFavoriteArticles() {

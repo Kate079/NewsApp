@@ -11,15 +11,6 @@ import UIKit
 final class FilterView: UIView {
     // MARK: - Subviews
 
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textAlignment = .left
-        label.text = "Filter"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
     private lazy var filterByCategory: HorizontalCollectionView = {
         let collectionView = HorizontalCollectionView()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -91,17 +82,13 @@ final class FilterView: UIView {
     private func configureUI() {
         backgroundColor = .systemGray6
 
-        addSubview(titleLabel)
         addSubview(filterByCategory)
         addSubview(filterByCountry)
         addSubview(filterBySources)
         addSubview(applyButton)
 
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.edgeInset),
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            filterByCategory.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.edgeInset),
+            filterByCategory.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.edgeInset),
             filterByCategory.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.edgeInset),
             filterByCategory.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(Constants.edgeInset)),
             filterByCategory.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2),
@@ -177,7 +164,7 @@ final class FilterView: UIView {
     }
 
     func updateFilterWithSelectedItems(with filter: [String: String]) {
-        selectedFilters = filter
+//        selectedFilters = filter
 
         // TODO: update selected items
 //        filterByCategory.updateSelectedItem(for: 0)

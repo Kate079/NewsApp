@@ -59,7 +59,6 @@ class ArticlesListViewController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = "Breaking News"
-        navigationController?.isNavigationBarHidden = false
         setupRouter()
         configureSearchController()
         configureItemSelectionHandler()

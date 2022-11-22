@@ -67,6 +67,7 @@ final class CustomTableViewCell: UITableViewCell {
         imageView.image = UIImage(systemName: "photo")?.withRenderingMode(.alwaysTemplate)
         imageView.layer.cornerRadius = Constants.cornerRadius
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -141,6 +142,21 @@ final class CustomTableViewCell: UITableViewCell {
         ])
     }
 
+    private func setImage(_ urlToImage: String?) {
+        guard let urlToImage, let url = URL(string: urlToImage) else { return }
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                let imageData: Data = try Data(contentsOf: url)
+                DispatchQueue.main.async {
+                    self.customImageView.image = UIImage(data: imageData)
+                }
+            } catch {
+                print("Unable to load data for: \(error)")
+            }
+        }
+    }
+
     @objc private func accessoryButtonDidTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
 
@@ -158,6 +174,7 @@ final class CustomTableViewCell: UITableViewCell {
         titleLabel.text = item.title
         subtitleLabel.text = "\(item.source.name) / \(item.author)"
         contentLabel.text = item.articleDescription
+        setImage(item.urlToImage)
     }
 }
 

@@ -145,14 +145,11 @@ final class CustomTableViewCell: UITableViewCell {
     private func setImage(_ urlToImage: String?) {
         guard let urlToImage, let url = URL(string: urlToImage) else { return }
 
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                let imageData: Data = try Data(contentsOf: url)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            if let imageData = try? Data(contentsOf: url) {
                 DispatchQueue.main.async {
-                    self.customImageView.image = UIImage(data: imageData)
+                    self?.customImageView.image = UIImage(data: imageData)
                 }
-            } catch {
-                print("Unable to load data for: \(error)")
             }
         }
     }
